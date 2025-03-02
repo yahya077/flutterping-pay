@@ -23,7 +23,7 @@ class FetchPaymentDetailState extends State
                     ->setAppBar((new AppBar())
                         ->setElevation(0)
                         ->setTitle((new Text(config('flutterping-pay.title')))->setStyle((new TextStyle())->setColor(new Color(255, 255, 255, 255))))
-                        ->setBackgroundColor(new Color(15, 146, 70, 255)))
+                        ->setBackgroundColor(new Color(240, 240, 240, 255)))
                     ->setBody(new CircularProgressIndicator())
             ),
             (new NetworkRequestAction())
