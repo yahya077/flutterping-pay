@@ -1,24 +1,26 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "yahya077/flutterping-pay",
+    "description": "Payment Page for Flutterping Laravel Adapter",
     "keywords": [
-        ":vendor_name",
+        "yahya077",
         "laravel",
-        ":package_slug"
+        "flutterping-pay",
+        "flutterping"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/yahya077/flutterping-pay",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Yahya Hindioglu",
+            "email": "yahyahindioglu@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": "^8.2",
         "spatie/laravel-package-tools": "^1.16",
-        "illuminate/contracts": "^10.0||^11.0||^12.0"
+        "illuminate/contracts": "^10.0||^11.0||^12.0",
+        "yahya077/flutterping-laravel": "*"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
@@ -30,18 +32,17 @@
         "pestphp/pest-plugin-laravel": "^3.0",
         "phpstan/extension-installer": "^1.3||^2.0",
         "phpstan/phpstan-deprecation-rules": "^1.1||^2.0",
-        "phpstan/phpstan-phpunit": "^1.3||^2.0",
-        "spatie/laravel-ray": "^1.35"
+        "phpstan/phpstan-phpunit": "^1.3||^2.0"
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "yahya077\\FlutterpingPay\\": "src/",
+            "yahya077\\FlutterpingPay\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "yahya077\\FlutterpingPay\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -63,13 +64,19 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "yahya077\\FlutterpingPay\\FlutterpingPayServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "FlutterpingPay": "yahya077\\FlutterpingPay\\Facades\\FlutterpingPay"
             }
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/yahya077/flutterping-laravel"
+        }
+    ]
 }
