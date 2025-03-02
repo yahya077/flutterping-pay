@@ -15,9 +15,9 @@ class PaymentApprovedState extends State
     public function getActions(): array
     {
         return [
-            (new LoadingAction())->setIsLoading(true),
-            (new AlertAction())->setContent((new Text("Ödeme Başarılı")))->setColor(Color::fromRGB(23, 173, 63)),
-            (new NavigationAction())->setPath((new NavigationPath('navigateBack'))->setNavigatorKey(config('flutterping.navigator_key'))),
+            (new LoadingAction)->setIsLoading(true),
+            (new AlertAction)->setContent((new Text('Ödeme Başarılı')))->setColor(Color::fromRGB(23, 173, 63)),
+            (new NavigationAction)->setPath((new NavigationPath('navigateBack'))->setNavigatorKey(config('flutterping.navigator_key'))),
         ];
     }
 }

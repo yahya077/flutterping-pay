@@ -59,287 +59,288 @@ use yahya077\FlutterpingPay\Pages\Payment\States\StartPaymentState;
 class PaymentDetailWidget extends Widget
 {
     protected ScrollController $scrollController;
+
     protected Authenticatable $user;
 
     public function __construct()
     {
-        $this->scrollController = new ScrollController("paymentPageScrollController");
+        $this->scrollController = new ScrollController('paymentPageScrollController');
         $this->user = auth()->user();
     }
 
     public function getStoredCards(): Collection
     {
-        return new Collection();
+        return new Collection;
     }
 
     public function getAppBar(): Json
     {
-        return (new AppBarWidget())
+        return (new AppBarWidget)
             ->setTitle((new Text(config('flutterping-pay.title'))))
             ->setBackgroundColor(new Color(240, 240, 240, 255));
     }
 
     protected function widget(): Json
     {
-        return (new Scaffold())
+        return (new Scaffold)
             ->setAppBar($this->getAppBar())
             ->setBackgroundColor(new Color(240, 240, 240, 255))
-            ->setBody((new SingleChildScrollView())
+            ->setBody((new SingleChildScrollView)
                 ->setChild((new Form(sprintf('%s.paymentForm', config('flutterping-pay.page.routeStateId'))))->setWidget(
-                    (new Column())
+                    (new Column)
                         ->setCrossAxisAlignment(CrossAxisAlignment::start())
                         ->setChildren([
                             (new SizedBox(height: new CoreDouble(10))),
                             $this->getAddressWidget(),
                             (new SizedBox(height: new CoreDouble(10))),
-                            (new Container())
+                            (new Container)
                                 ->setWidth(CoreDouble::infinity())
                                 ->setPadding(EdgeInsetsPadding::fromLTRB(left: 15, right: 15, bottom: 15))
                                 ->setMargin(EdgeInsetsPadding::fromSymmetric(horizontal: 15))
-                                ->setDecoration((new BoxDecoration())
+                                ->setDecoration((new BoxDecoration)
                                     ->setBorderRadius(BorderRadius::all(5))
                                     ->setBorder(Border::all(Color::fromRGB(210, 210, 210), 1))
                                     ->setColor(Color::fromRGB(255, 255, 255))
                                 )
                                 ->setChild((new Column)
                                     ->setChildren([
-                                        (new Row())
+                                        (new Row)
                                             ->setMainAxisAlignment(MainAxisAlignment::spaceBetween())
                                             ->setCrossAxisAlignment(CrossAxisAlignment::center())
                                             ->setChildren([
-                                                (new Container())
+                                                (new Container)
                                                     ->setPadding(EdgeInsetsPadding::fromLTRB(top: 15))
                                                     ->setChild(
-                                                        (new Text("Kart Bilgileri"))
-                                                            ->setStyle((new TextStyle())
+                                                        (new Text('Kart Bilgileri'))
+                                                            ->setStyle((new TextStyle)
                                                                 ->setFontSize(17)
                                                                 ->setFontWeight(FontWeight::w600())),
                                                     ),
-                                                $this->getStoredCards()->count() > 0 ? (new Visibility())
+                                                $this->getStoredCards()->count() > 0 ? (new Visibility)
                                                     ->setVisible(new DynamicValue($this->getStoredCards()->count() > 0))
                                                     ->setChild(
-                                                        (new Container())
+                                                        (new Container)
                                                             ->setWidth(CoreDouble::from(175))
                                                             ->setHeight(CoreDouble::from(40))
                                                             ->setChild(
-                                                                (new CheckboxFormField())
-                                                                    ->setName("with_selected_card")
+                                                                (new CheckboxFormField)
+                                                                    ->setName('with_selected_card')
                                                                     ->setInitialValue(new DynamicValue($this->getStoredCards()->count() > 0))
                                                                     ->setTitle(
-                                                                        (new ValueListenableBuilder())
-                                                                            ->setValueListenable(new NotifierValue(sprintf("%s_isMyCardsVisible", config('flutterping-pay.page.routeStateId'))))
-                                                                            ->setScopeId("CardSelectVisibilityNotifier")
-                                                                            ->setChild((new Visibility())
-                                                                                ->setVisible((new EvalValue(sprintf("\${ScopeValue.CardSelectVisibilityNotifier.value} == %s", $this->getStoredCards()->count() > 0 ? 'true' : 'false'))))
+                                                                        (new ValueListenableBuilder)
+                                                                            ->setValueListenable(new NotifierValue(sprintf('%s_isMyCardsVisible', config('flutterping-pay.page.routeStateId'))))
+                                                                            ->setScopeId('CardSelectVisibilityNotifier')
+                                                                            ->setChild((new Visibility)
+                                                                                ->setVisible((new EvalValue(sprintf('${ScopeValue.CardSelectVisibilityNotifier.value} == %s', $this->getStoredCards()->count() > 0 ? 'true' : 'false'))))
                                                                                 ->setChild(
-                                                                                    new Text("Başka Kartla öde")
+                                                                                    new Text('Başka Kartla öde')
                                                                                 )
                                                                                 ->setElseChild(
-                                                                                    (new Text("Kayıtlı Kartla öde"))
+                                                                                    (new Text('Kayıtlı Kartla öde'))
                                                                                 )
                                                                             )
                                                                     )
                                                                     ->setSide(BorderSide::none())
                                                                     ->setOnChanged(
-                                                                        (new ActionEvent())
+                                                                        (new ActionEvent)
                                                                             ->setStateId('mainStackStateId')
-                                                                            ->setAction((new UpdateNotifierAction())
-                                                                                ->setNotifierId(sprintf("%s_isMyCardsVisible", config('flutterping-pay.page.routeStateId')))
-                                                                                ->setValue(new EvalValue(sprintf("!\${NotifierValue.%s_isMyCardsVisible}", config('flutterping-pay.page.routeStateId'))))
+                                                                            ->setAction((new UpdateNotifierAction)
+                                                                                ->setNotifierId(sprintf('%s_isMyCardsVisible', config('flutterping-pay.page.routeStateId')))
+                                                                                ->setValue(new EvalValue(sprintf('!${NotifierValue.%s_isMyCardsVisible}', config('flutterping-pay.page.routeStateId'))))
                                                                             )
                                                                     )
                                                             )
-                                                    ) : (new SizedBox()),
+                                                    ) : (new SizedBox),
                                             ]),
                                         (new SizedBox(height: new CoreDouble(10))),
-                                        (new Text("Kartınızı kaydederek bir sonraki alışverişlerinizde hızlıca ödeme yapabilirsiniz."))
+                                        (new Text('Kartınızı kaydederek bir sonraki alışverişlerinizde hızlıca ödeme yapabilirsiniz.'))
                                             ->setOverflow(TextOverflow::ellipsis())
                                             ->setMaxLines(5)
                                             ->setSoftWrap(true)
-                                            ->setStyle((new TextStyle())
+                                            ->setStyle((new TextStyle)
                                                 ->setColor(Color::fromRGB(120, 120, 120))
                                                 ->setFontSize(14)),
-                                        (new ValueListenableBuilder())
-                                            ->setValueListenable(new NotifierValue(sprintf("%s_isMyCardsVisible", config('flutterping-pay.page.routeStateId'))))
-                                            ->setScopeId("CardSelectVisibilityNotifier")
-                                            ->setChild((new Visibility())
-                                                ->setVisible((new EvalValue(sprintf("\${ScopeValue.CardSelectVisibilityNotifier.value} == %s", $this->getStoredCards()->count() > 0 ? 'true' : 'false'))))
+                                        (new ValueListenableBuilder)
+                                            ->setValueListenable(new NotifierValue(sprintf('%s_isMyCardsVisible', config('flutterping-pay.page.routeStateId'))))
+                                            ->setScopeId('CardSelectVisibilityNotifier')
+                                            ->setChild((new Visibility)
+                                                ->setVisible((new EvalValue(sprintf('${ScopeValue.CardSelectVisibilityNotifier.value} == %s', $this->getStoredCards()->count() > 0 ? 'true' : 'false'))))
                                                 ->setChild($this->getStoredCardsWidget())),
-                                        (new ValueListenableBuilder())
-                                            ->setValueListenable(new NotifierValue(sprintf("%s_isMyCardsVisible", config('flutterping-pay.page.routeStateId'))))
-                                            ->setScopeId("CreditCardFormVisibilityNotifier")
-                                            ->setChild((new Visibility())
-                                                ->setVisible((new EvalValue(sprintf("\${ScopeValue.CreditCardFormVisibilityNotifier.value} == %s", $this->getStoredCards()->count() > 0 ? 'false' : 'true'))))
-                                                ->setChild((new Container())
-                                                    ->setChild((new Column())->setChildren([
-                                                        (new TextFormField("card_number", "paymentForm"))
+                                        (new ValueListenableBuilder)
+                                            ->setValueListenable(new NotifierValue(sprintf('%s_isMyCardsVisible', config('flutterping-pay.page.routeStateId'))))
+                                            ->setScopeId('CreditCardFormVisibilityNotifier')
+                                            ->setChild((new Visibility)
+                                                ->setVisible((new EvalValue(sprintf('${ScopeValue.CreditCardFormVisibilityNotifier.value} == %s', $this->getStoredCards()->count() > 0 ? 'false' : 'true'))))
+                                                ->setChild((new Container)
+                                                    ->setChild((new Column)->setChildren([
+                                                        (new TextFormField('card_number', 'paymentForm'))
                                                             ->setKeyboardType(TextInputType::number())
                                                             ->setValidator((new ComposeValidator([
-                                                                (new RequiredValidator())->setErrorMessage("Lütfen kart numarası girin"),
+                                                                (new RequiredValidator)->setErrorMessage('Lütfen kart numarası girin'),
                                                             ])))
                                                             ->setTextInputAction(TextInputAction::next())
-                                                            ->setDecoration((new InputDecoration())
+                                                            ->setDecoration((new InputDecoration)
                                                                 ->setFilled(true)
                                                                 ->setFillColor(Color::fromRGB(255, 255, 255))
-                                                                ->setHintText("Kart Numarası")
-                                                                ->setHintStyle((new TextStyle())
+                                                                ->setHintText('Kart Numarası')
+                                                                ->setHintStyle((new TextStyle)
                                                                     ->setColor(Color::fromRGB(180, 180, 180))
                                                                     ->setFontSize(14))
                                                             )
-                                                            ->setStyle((new TextStyle())
+                                                            ->setStyle((new TextStyle)
                                                                 ->setColor(Color::fromRGB(180, 180, 180))
                                                                 ->setFontSize(14)),
                                                         (new SizedBox(height: new CoreDouble(10))),
-                                                        (new TextFormField("card_holder_name", "paymentForm"))
+                                                        (new TextFormField('card_holder_name', 'paymentForm'))
                                                             ->setValidator((new ComposeValidator([
-                                                                (new RegexValidator("^\s*[a-zA-ZğüşöçİĞÜŞÖÇ]+(?:\s+[a-zA-ZğüşöçİĞÜŞÖÇ]+)+\s*$"))->setErrorMessage("Lütfen isim soyisim girin"),
-                                                                (new MinLengthValidator(4))->setErrorMessage("Lütfen isim soyisim girin")->withoutSpaces(),
-                                                                (new MaxLengthValidator(30))->setErrorMessage("Lütfen isim soyisim girin")
+                                                                (new RegexValidator("^\s*[a-zA-ZğüşöçİĞÜŞÖÇ]+(?:\s+[a-zA-ZğüşöçİĞÜŞÖÇ]+)+\s*$"))->setErrorMessage('Lütfen isim soyisim girin'),
+                                                                (new MinLengthValidator(4))->setErrorMessage('Lütfen isim soyisim girin')->withoutSpaces(),
+                                                                (new MaxLengthValidator(30))->setErrorMessage('Lütfen isim soyisim girin'),
                                                             ])))
-                                                            ->setDecoration((new InputDecoration())
+                                                            ->setDecoration((new InputDecoration)
                                                                 ->setFilled(true)
                                                                 ->setFillColor(Color::fromRGB(255, 255, 255))
-                                                                ->setHintText("Kart Üzerindeki İsim")
-                                                                ->setHintStyle((new TextStyle())
+                                                                ->setHintText('Kart Üzerindeki İsim')
+                                                                ->setHintStyle((new TextStyle)
                                                                     ->setColor(Color::fromRGB(180, 180, 180))
                                                                     ->setFontSize(14))
                                                             )
-                                                            ->setStyle((new TextStyle())
+                                                            ->setStyle((new TextStyle)
                                                                 ->setColor(Color::fromRGB(180, 180, 180))
                                                                 ->setFontSize(14)),
                                                         (new SizedBox(height: new CoreDouble(10))),
-                                                        (new Row())
+                                                        (new Row)
                                                             ->setChildren([
-                                                                (new Expanded())
-                                                                    ->setChild((new TextFormField("card_expire_month", "paymentForm"))
+                                                                (new Expanded)
+                                                                    ->setChild((new TextFormField('card_expire_month', 'paymentForm'))
                                                                         ->setKeyboardType(TextInputType::number())
                                                                         ->setValidator((new ComposeValidator([
-                                                                            (new MinLengthValidator(2))->setErrorMessage("örn. 01"),
-                                                                            (new RangeValidator(1, 31))->setErrorMessage("Geçersiz Ay"),
+                                                                            (new MinLengthValidator(2))->setErrorMessage('örn. 01'),
+                                                                            (new RangeValidator(1, 31))->setErrorMessage('Geçersiz Ay'),
                                                                         ])))
                                                                         ->setMaxLength(2)
-                                                                        ->setDecoration((new InputDecoration())
+                                                                        ->setDecoration((new InputDecoration)
                                                                             ->setFilled(true)
                                                                             ->setFillColor(Color::fromRGB(255, 255, 255))
-                                                                            ->setHintText("Ay (01)")
-                                                                            ->setHintStyle((new TextStyle())
+                                                                            ->setHintText('Ay (01)')
+                                                                            ->setHintStyle((new TextStyle)
                                                                                 ->setColor(Color::fromRGB(180, 180, 180))
                                                                                 ->setFontSize(14))
                                                                         )
-                                                                        ->setStyle((new TextStyle())
+                                                                        ->setStyle((new TextStyle)
                                                                             ->setColor(Color::fromRGB(180, 180, 180))
                                                                             ->setFontSize(14))),
                                                                 (new SizedBox(width: new CoreDouble(3))),
-                                                                (new Expanded())
-                                                                    ->setChild((new TextFormField("card_expire_year", "paymentForm"))
+                                                                (new Expanded)
+                                                                    ->setChild((new TextFormField('card_expire_year', 'paymentForm'))
                                                                         ->setKeyboardType(TextInputType::number())
                                                                         ->setValidator((new ComposeValidator([
-                                                                            (new MinLengthValidator(2))->setErrorMessage("örn. 25"),
-                                                                            (new RangeValidator(25, 40))->setErrorMessage("Geçersiz yıl"),
+                                                                            (new MinLengthValidator(2))->setErrorMessage('örn. 25'),
+                                                                            (new RangeValidator(25, 40))->setErrorMessage('Geçersiz yıl'),
                                                                         ])))
                                                                         ->setMaxLength(2)
-                                                                        ->setDecoration((new InputDecoration())
+                                                                        ->setDecoration((new InputDecoration)
                                                                             ->setFilled(true)
                                                                             ->setFillColor(Color::fromRGB(255, 255, 255))
-                                                                            ->setHintText("Yıl (25)")
-                                                                            ->setHintStyle((new TextStyle())
+                                                                            ->setHintText('Yıl (25)')
+                                                                            ->setHintStyle((new TextStyle)
                                                                                 ->setColor(Color::fromRGB(180, 180, 180))
                                                                                 ->setFontSize(14))
                                                                         )
-                                                                        ->setStyle((new TextStyle())
+                                                                        ->setStyle((new TextStyle)
                                                                             ->setColor(Color::fromRGB(180, 180, 180))
                                                                             ->setFontSize(14))),
                                                                 (new SizedBox(width: new CoreDouble(10))),
-                                                                (new Expanded())
-                                                                    ->setChild((new TextFormField("card_cvc", "paymentForm"))
+                                                                (new Expanded)
+                                                                    ->setChild((new TextFormField('card_cvc', 'paymentForm'))
                                                                         ->setKeyboardType(TextInputType::number())
                                                                         ->setValidator((new ComposeValidator([
-                                                                            (new MinLengthValidator(3))->setErrorMessage("örn. 000"),
-                                                                            (new MaxLengthValidator(4))->setErrorMessage("örn. 000")
+                                                                            (new MinLengthValidator(3))->setErrorMessage('örn. 000'),
+                                                                            (new MaxLengthValidator(4))->setErrorMessage('örn. 000'),
                                                                         ])))
                                                                         ->setMaxLength(4)
                                                                         ->setTextInputAction(TextInputAction::done())
-                                                                        ->setDecoration((new InputDecoration())
+                                                                        ->setDecoration((new InputDecoration)
                                                                             ->setFilled(true)
                                                                             ->setFillColor(Color::fromRGB(255, 255, 255))
-                                                                            ->setHintText("CVC (000)")
-                                                                            ->setHintStyle((new TextStyle())
+                                                                            ->setHintText('CVC (000)')
+                                                                            ->setHintStyle((new TextStyle)
                                                                                 ->setColor(Color::fromRGB(180, 180, 180))
                                                                                 ->setFontSize(14))
                                                                         )
-                                                                        ->setStyle((new TextStyle())
+                                                                        ->setStyle((new TextStyle)
                                                                             ->setColor(Color::fromRGB(180, 180, 180))
                                                                             ->setFontSize(14))),
                                                             ]),
                                                         (new SizedBox(height: new CoreDouble(10))),
                                                         $this->getBottomInformationWidget(),
                                                         (new SizedBox(height: new CoreDouble(10))),
-                                                        (new TextFormField("card_alias", "paymentForm"))
+                                                        (new TextFormField('card_alias', 'paymentForm'))
                                                             ->setValidator((new ComposeValidator([
-                                                                (new MaxLengthValidator(10))->setErrorMessage("10 karakterden fazla olamaz"),
+                                                                (new MaxLengthValidator(10))->setErrorMessage('10 karakterden fazla olamaz'),
                                                             ])))
                                                             ->setMaxLength(10)
-                                                            ->setDecoration((new InputDecoration())
+                                                            ->setDecoration((new InputDecoration)
                                                                 ->setFilled(true)
                                                                 ->setFillColor(Color::fromRGB(255, 255, 255))
-                                                                ->setHintText("Takma isim (Şirket, Benim vb.)")
-                                                                ->setHintStyle((new TextStyle())
+                                                                ->setHintText('Takma isim (Şirket, Benim vb.)')
+                                                                ->setHintStyle((new TextStyle)
                                                                     ->setColor(Color::fromRGB(180, 180, 180))
                                                                     ->setFontSize(14))
                                                             )
-                                                            ->setStyle((new TextStyle())
+                                                            ->setStyle((new TextStyle)
                                                                 ->setColor(Color::fromRGB(180, 180, 180))
-                                                                ->setFontSize(14))
-                                                    ]))))
+                                                                ->setFontSize(14)),
+                                                    ])))),
                                     ])
                                 ),
                             (new SizedBox(height: new CoreDouble(10))),
-                            (new Container())
+                            (new Container)
                                 ->setWidth(CoreDouble::infinity())
                                 ->setPadding(EdgeInsetsPadding::fromSymmetric(vertical: 10, horizontal: 15))
                                 ->setMargin(EdgeInsetsPadding::fromSymmetric(horizontal: 15))
-                                ->setDecoration((new BoxDecoration())
+                                ->setDecoration((new BoxDecoration)
                                     ->setBorderRadius(BorderRadius::all(5))
                                     ->setBorder(Border::all(Color::fromRGB(210, 210, 210), 1))
                                     ->setColor(Color::fromRGB(255, 255, 255))
                                 )
                                 ->setChild((new Column)
                                     ->setChildren([
-                                        (new Container())
+                                        (new Container)
                                             ->setWidth(CoreDouble::infinity())
-                                            ->setChild((new Column())
+                                            ->setChild((new Column)
                                                 ->setChildren([
-                                                    (new Row())
+                                                    (new Row)
                                                         ->setMainAxisAlignment(MainAxisAlignment::spaceBetween())
                                                         ->setCrossAxisAlignment(CrossAxisAlignment::center())
                                                         ->setChildren([
-                                                            (new Text("Sipariş Notu"))
-                                                                ->setStyle((new TextStyle())
+                                                            (new Text('Sipariş Notu'))
+                                                                ->setStyle((new TextStyle)
                                                                     ->setFontSize(17)
                                                                     ->setFontWeight(FontWeight::w600())),
-                                                            (new Text(""))
+                                                            (new Text('')),
                                                         ]),
                                                     (new SizedBox(height: new CoreDouble(10))),
-                                                    (new TextFormField("note", "paymentForm"))
+                                                    (new TextFormField('note', 'paymentForm'))
                                                         ->setMinLines(2)
-                                                        ->setDecoration((new InputDecoration())
+                                                        ->setDecoration((new InputDecoration)
                                                             ->setEnabledBorder(
-                                                                (new OutlineInputBorder())
+                                                                (new OutlineInputBorder)
                                                                     ->setBorderRadius(BorderRadius::all(10))
                                                                     ->setBorderSide((new BorderSide(Color::fromRGB(180, 180, 180)))))
                                                             ->setBorder(
-                                                                (new OutlineInputBorder())
+                                                                (new OutlineInputBorder)
                                                                     ->setBorderRadius(BorderRadius::all(10))
                                                                     ->setBorderSide((new BorderSide(Color::fromRGB(180, 180, 180)))))
                                                             ->setFilled(true)
                                                             ->setFillColor(Color::fromRGB(255, 255, 255))
-                                                            ->setHintText("Siparişiniz ile ilgili notu bu alana yazabilirsiniz.")
+                                                            ->setHintText('Siparişiniz ile ilgili notu bu alana yazabilirsiniz.')
                                                             ->setHintMaxLines(2)
-                                                            ->setHintStyle((new TextStyle())
+                                                            ->setHintStyle((new TextStyle)
                                                                 ->setColor(Color::fromRGB(180, 180, 180))
                                                                 ->setFontSize(14))
                                                         )
-                                                        ->setStyle((new TextStyle())
+                                                        ->setStyle((new TextStyle)
                                                             ->setColor(Color::fromRGB(180, 180, 180))
                                                             ->setFontSize(14)),
                                                     (new SizedBox(height: new CoreDouble(10))),
@@ -351,58 +352,58 @@ class PaymentDetailWidget extends Widget
 
     public function getBottomNavigationBar(): Json
     {
-        return (new BottomAppBar())
+        return (new BottomAppBar)
             ->setChild((new IntrinsicHeight)
-                ->setChild((new Container())
+                ->setChild((new Container)
                     ->setPadding(EdgeInsetsPadding::fromSymmetric(vertical: 1, horizontal: 1))
                     ->setColor(Color::fromRGB(255, 255, 255))
-                    ->setChild((new Row())
+                    ->setChild((new Row)
                         ->setCrossAxisAlignment(CrossAxisAlignment::center())
                         ->setMainAxisAlignment(MainAxisAlignment::spaceBetween())
                         ->setChildren([
-                            (new Column())
+                            (new Column)
                                 ->setCrossAxisAlignment(CrossAxisAlignment::start())
                                 ->setChildren([
-                                    (new Text("Toplam Tutar"))
-                                        ->setStyle((new TextStyle())
+                                    (new Text('Toplam Tutar'))
+                                        ->setStyle((new TextStyle)
                                             ->setColor(Color::fromRGB(0, 0, 0))
                                             ->setFontSize(16)
                                             ->setFontWeight(FontWeight::w600())),
                                     (new SizedBox(width: new CoreDouble(5))),
                                     (new Text($this->getTotalPrice()))
-                                        ->setStyle((new TextStyle())
+                                        ->setStyle((new TextStyle)
                                             ->setColor(Color::fromRGB(15, 146, 70))
                                             ->setFontSize(18)
                                             ->setFontWeight(FontWeight::w600())),
                                 ]),
-                            (new GestureDetector())
+                            (new GestureDetector)
                                 ->setOnTap(
                                     PaymentPage::instance()::getStateEvent(StartPaymentState::getName())
-                                )->setChild((new Container())
-                                    ->setPadding(EdgeInsetsPadding::fromSymmetric(10, 20))
-                                    ->setDecoration((new BoxDecoration())
-                                        ->setColor(Color::fromRGB(15, 146, 70))
-                                        ->setBorderRadius(BorderRadius::all(10)))
-                                    ->setChild((new Text("Ödemeyi Tamamla"))->setStyle((new TextStyle())
-                                        ->setColor(Color::fromRGB(255, 255, 255))
-                                        ->setFontWeight(FontWeight::w600()))))
+                                )->setChild((new Container)
+                                ->setPadding(EdgeInsetsPadding::fromSymmetric(10, 20))
+                                ->setDecoration((new BoxDecoration)
+                                    ->setColor(Color::fromRGB(15, 146, 70))
+                                    ->setBorderRadius(BorderRadius::all(10)))
+                                ->setChild((new Text('Ödemeyi Tamamla'))->setStyle((new TextStyle)
+                                    ->setColor(Color::fromRGB(255, 255, 255))
+                                    ->setFontWeight(FontWeight::w600())))),
                         ]))));
     }
 
     public function getStoredCardsWidget(): Json
     {
-        $widget = (new RadioGroupFormField())
-            ->setValidator((new RequiredValidator())
-                ->setErrorMessage("Lütfen bir kart seçin"))
-            ->setName("selected_card");
+        $widget = (new RadioGroupFormField)
+            ->setValidator((new RequiredValidator)
+                ->setErrorMessage('Lütfen bir kart seçin'))
+            ->setName('selected_card');
 
         $options = [];
 
         foreach ($this->getStoredCards() as $storedCard) {
-            $options[] = (new RadioListTile())
+            $options[] = (new RadioListTile)
                 ->setValue(new DynamicValue($storedCard->id))
                 ->setContentPadding(EdgeInsetsPadding::fromSymmetric(horizontal: 0))
-                ->setTitle(new Text(sprintf("%s Kartım", $storedCard->alias)));
+                ->setTitle(new Text(sprintf('%s Kartım', $storedCard->alias)));
         }
 
         $widget->setOptions($options);
@@ -412,31 +413,31 @@ class PaymentDetailWidget extends Widget
 
     public function getTotalPrice(): string
     {
-        return "0.00 TL";
+        return '0.00 TL';
     }
 
     public function getAddressWidget(): Json
     {
-        return (new Container())
+        return (new Container)
             ->setWidth(CoreDouble::infinity())
             ->setPadding(EdgeInsetsPadding::fromSymmetric(vertical: 10, horizontal: 15))
             ->setMargin(EdgeInsetsPadding::fromSymmetric(horizontal: 15))
-            ->setDecoration((new BoxDecoration())
+            ->setDecoration((new BoxDecoration)
                 ->setBorderRadius(BorderRadius::all(5))
                 ->setBorder(Border::all(Color::fromRGB(210, 210, 210), 1))
                 ->setColor(Color::fromRGB(255, 255, 255))
             )
             ->setChild((new Column)
                 ->setChildren([
-                    (new Text("Teslimat Adresin"))
-                        ->setStyle((new TextStyle())
+                    (new Text('Teslimat Adresin'))
+                        ->setStyle((new TextStyle)
                             ->setFontSize(17)
                             ->setFontWeight(FontWeight::w600())),
                     (new SizedBox(height: new CoreDouble(10))),
                     (new Text($this->getAddress()))
-                        ->setStyle((new TextStyle())
+                        ->setStyle((new TextStyle)
                             ->setColor(Color::fromRGB(180, 180, 180))
-                            ->setFontSize(14))
+                            ->setFontSize(14)),
                 ]));
     }
 
@@ -447,11 +448,11 @@ class PaymentDetailWidget extends Widget
 
     public function getBottomInformationWidget(): Json
     {
-        return (new Text("Kartınızı Iyzico güvencesinde kaydetmek için kartınıza bir takma isim girin."))
+        return (new Text('Kartınızı Iyzico güvencesinde kaydetmek için kartınıza bir takma isim girin.'))
             ->setOverflow(TextOverflow::ellipsis())
             ->setMaxLines(5)
             ->setSoftWrap(true)
-            ->setStyle((new TextStyle())
+            ->setStyle((new TextStyle)
                 ->setColor(Color::fromRGB(120, 120, 120))
                 ->setFontSize(14));
     }

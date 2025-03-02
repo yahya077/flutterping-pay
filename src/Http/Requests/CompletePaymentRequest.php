@@ -60,7 +60,7 @@ class CompletePaymentRequest extends FormRequest
         $paymentPage = config('flutterping.page.class');
         $errors = $validator->errors();
 
-        throw new HttpResponseException(Response::json($paymentPage::getStateEvent(PaymentFailedState::getName(),scope: (new Scope("", [
+        throw new HttpResponseException(Response::json($paymentPage::getStateEvent(PaymentFailedState::getName(), scope: (new Scope('', [
             'errors' => $errors,
         ]))), 422));
     }
