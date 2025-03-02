@@ -15,26 +15,36 @@ namespace yahya077\FlutterpingPay\Schema;
  * @property string $ip
  * @property string $environment
  * @property array $extra
- *
  */
 class CompletePaymentParameters
 {
     public bool $with_selected_card = false;
+
     public ?string $card_number;
+
     public ?string $card_holder_name;
+
     public ?string $card_expire_month;
+
     public ?string $card_expire_year;
+
     public ?string $card_cvc;
+
     public ?string $card_alias;
+
     public ?string $selected_card;
+
     public ?string $note;
+
     public string $ip;
+
     public string $environment;
+
     public array $extra;
 
     public static function fromArray(array $array): self
     {
-        $instance = new self();
+        $instance = new self;
         $instance->with_selected_card = $array['with_selected_card'] ?? false;
         $instance->card_number = $array['card_number'] ?? null;
         $instance->card_holder_name = $array['card_holder_name'] ?? null;

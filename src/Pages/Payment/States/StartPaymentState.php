@@ -14,23 +14,24 @@ class StartPaymentState extends State
     public function getActions(): array
     {
         $formId = sprintf('%s.paymentForm', config('flutterping-pay.page.routeStateId'));
+
         return [
-            (new ValidateAndSaveFormAction())
+            (new ValidateAndSaveFormAction)
                 ->setFormStateId($formId)
                 ->then(
-                    (new LoadingAction())
-                        ->setMessage("Ödeme Yapılıyor")
+                    (new LoadingAction)
+                        ->setMessage('Ödeme Yapılıyor')
                         ->then(
-                            (new SubmitAction())
+                            (new SubmitAction)
                                 ->setFormStateId($formId)
                                 ->setSubmitAction(
-                                    (new NetworkRequestAction())
+                                    (new NetworkRequestAction)
                                         ->setClient(config('flutterping-pay.flutterpingClient'))
-                                        ->setPath((new ApiPath(sprintf("%s/completePayment", config('flutterping-pay.route.prefix')))))
-                                        ->setMethod("POST")
+                                        ->setPath((new ApiPath(sprintf('%s/completePayment', config('flutterping-pay.route.prefix')))))
+                                        ->setMethod('POST')
                                 )
                         )
-                )
+                ),
         ];
     }
 }

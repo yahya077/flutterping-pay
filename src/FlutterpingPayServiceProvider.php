@@ -4,7 +4,6 @@ namespace yahya077\FlutterpingPay;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use yahya077\FlutterpingPay\Commands\FlutterpingPayCommand;
 
 class FlutterpingPayServiceProvider extends PackageServiceProvider
 {

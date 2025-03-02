@@ -19,16 +19,16 @@ class FetchPaymentDetailState extends State
     {
         return [
             PaymentPage::instance()::updateWidgetAction(
-                (new Scaffold())
-                    ->setAppBar((new AppBar())
+                (new Scaffold)
+                    ->setAppBar((new AppBar)
                         ->setElevation(0)
-                        ->setTitle((new Text(config('flutterping-pay.title')))->setStyle((new TextStyle())->setColor(new Color(255, 255, 255, 255))))
+                        ->setTitle((new Text(config('flutterping-pay.title')))->setStyle((new TextStyle)->setColor(new Color(255, 255, 255, 255))))
                         ->setBackgroundColor(new Color(240, 240, 240, 255)))
-                    ->setBody(new CircularProgressIndicator())
+                    ->setBody(new CircularProgressIndicator)
             ),
-            (new NetworkRequestAction())
+            (new NetworkRequestAction)
                 ->setClient(config('flutterping-pay.flutterpingClient'))
-                ->setPath((new ApiPath(config('flutterping-pay.route.prefix'))))
+                ->setPath((new ApiPath(config('flutterping-pay.route.prefix')))),
         ];
     }
 }

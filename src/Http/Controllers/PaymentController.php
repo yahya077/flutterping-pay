@@ -18,16 +18,17 @@ class PaymentController
     public function completePayment(CompletePaymentRequest $request, AbstractPaymentService $service)
     {
         $request->merge([
-            "ip" => $request->getClientIp() ?? "0.0.0.0",
-            "environment" => Flutterping::getPlatform() ?? 'mobile',
+            'ip' => $request->getClientIp() ?? '0.0.0.0',
+            'environment' => Flutterping::getPlatform() ?? 'mobile',
         ]);
 
         try {
             $service->completePayment($service->buildParameters($request->all()));
         } catch (\Exception $e) {
-            Log::error("PaymentController::completePayment", [
-                "message" => $e->getMessage(),
+            Log::error('PaymentController::completePayment', [
+                'message' => $e->getMessage(),
             ]);
+
             return response()->flutterping(PaymentPage::instance()::onFail());
         }
 

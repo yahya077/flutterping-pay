@@ -13,9 +13,9 @@ class PaymentFailedState extends State
     public function getActions(): array
     {
         return [
-            (new LoadingAction())
+            (new LoadingAction)
                 ->setIsLoading(true),
-            (new AlertAction())->setContent((new Text("Ödeme Başarısız!")))->setColor(Color::fromRGB(255, 0, 0))
+            (new AlertAction)->setContent((new Text('Ödeme Başarısız!')))->setColor(Color::fromRGB(255, 0, 0)),
         ];
     }
 }

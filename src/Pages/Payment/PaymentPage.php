@@ -2,16 +2,16 @@
 
 namespace yahya077\FlutterpingPay\Pages\Payment;
 
+use Flutterping\Concept\State;
+use Flutterping\Concept\StatefulPage;
 use Flutterping\Resources\Event\ActionEvent;
 use Flutterping\Resources\Json;
+use Flutterping\Resources\PageNotifier;
+use Flutterping\Resources\Value\DynamicValue;
 use yahya077\FlutterpingPay\Pages\Payment\States\FetchPaymentDetailState;
 use yahya077\FlutterpingPay\Pages\Payment\States\PaymentApprovedState;
 use yahya077\FlutterpingPay\Pages\Payment\States\PaymentFailedState;
 use yahya077\FlutterpingPay\Pages\Payment\States\StartPaymentState;
-use Flutterping\Concept\State;
-use Flutterping\Concept\StatefulPage;
-use Flutterping\Resources\PageNotifier;
-use Flutterping\Resources\Value\DynamicValue;
 use yahya077\FlutterpingPay\Pages\Payment\Widgets\PaymentDetailWidget;
 
 class PaymentPage extends StatefulPage
@@ -64,7 +64,7 @@ class PaymentPage extends StatefulPage
     public function getPageNotifiers(): array
     {
         return [
-            (new PageNotifier(sprintf("%s_isMyCardsVisible", static::getRouteStateId()), defaultValue: new DynamicValue(true))),
+            (new PageNotifier(sprintf('%s_isMyCardsVisible', static::getRouteStateId()), defaultValue: new DynamicValue(true))),
         ];
     }
 
@@ -100,6 +100,6 @@ class PaymentPage extends StatefulPage
 
     public static function getDetailWidget(): Json
     {
-        return new PaymentDetailWidget();
+        return new PaymentDetailWidget;
     }
 }
